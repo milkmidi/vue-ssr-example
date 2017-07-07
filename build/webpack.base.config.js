@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const vueConfig = require('./vue-loader.config');
+// const vueConfig = require('./vue-loader.config');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
@@ -11,12 +11,12 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist/',
-    filename: '[name].[chunkhash].js'
+    filename: '[name].[chunkhash].js',
   },
   resolve: {
     alias: {
-      'public': path.resolve(__dirname, '../public')
-    }
+      public: path.resolve(__dirname, '../public'),
+    },
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
@@ -28,41 +28,41 @@ module.exports = {
       {
         test: /\.js$/,
         use: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
         use: 'url-loader',
         options: {
           limit: 10000,
-          name: '[name].[ext]?[hash]'
-        }
+          name: '[name].[ext]?[hash]',
+        },
       },
       {
         test: /\.css$/,
         use: isProd
           ? ExtractTextPlugin.extract({
-              use: 'css-loader?minimize',
-              fallback: 'vue-style-loader'
-            })
-          : ['vue-style-loader', 'css-loader']
-      }
-    ]
+            use: 'css-loader?minimize',
+            fallback: 'vue-style-loader',
+          })
+          : ['vue-style-loader', 'css-loader'],
+      },
+    ],
   },
   performance: {
     maxEntrypointSize: 300000,
-    hints: isProd ? 'warning' : false
+    hints: isProd ? 'warning' : false,
   },
   plugins: isProd
     ? [
-        new webpack.optimize.UglifyJsPlugin({
-          compress: { warnings: false }
-        }),
-        new ExtractTextPlugin({
-          filename: 'common.[chunkhash].css'
-        })
-      ]
+      new webpack.optimize.UglifyJsPlugin({
+        compress: { warnings: false },
+      }),
+      new ExtractTextPlugin({
+        filename: 'common.[chunkhash].css',
+      }),
+    ]
     : [
-        new FriendlyErrorsPlugin()
-      ]
-}
+      new FriendlyErrorsPlugin(),
+    ],
+};

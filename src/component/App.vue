@@ -16,9 +16,10 @@
 
 <script>
 import About from './About.vue';
+
 export default{
-  components:{
-    About
-  }
-}
+  components: {
+    About,
+  },
+};
 </script>

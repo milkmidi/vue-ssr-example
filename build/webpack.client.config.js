@@ -1,12 +1,14 @@
 const path = require('path');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   entry: {
     app: './src/entry-client.js',
-    vender:[
-      'vue'
-    ]
+    vender: [
+      'vue',
+    ],
   },
   output: {
     path: path.resolve('dist'),
@@ -23,10 +25,23 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
       },
-    ]
+    ],
   },
-  plugins:[
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.client.html',
+    }),
     new FriendlyErrorsPlugin(),
-    new VueSSRClientPlugin()
-  ]  
+    new VueSSRClientPlugin(),
+  ],
+  devServer: {
+    contentBase: 'build',
+    historyApiFallback: true,
+    port: 8080,
+    hot: true,
+    stats: {
+      chunks: false,
+      colors: true,
+    },
+  },
 };
