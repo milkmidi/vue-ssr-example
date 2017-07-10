@@ -29,7 +29,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.client.html',
+      template: 'src/index.template.html',
     }),
     new FriendlyErrorsPlugin(),
     new VueSSRClientPlugin(),

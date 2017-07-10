@@ -13,7 +13,7 @@ module.exports = {
     app: './src/entry-server.js',
   },
   output: {
-    path: path.resolve('build'),
+    path: path.resolve('dist'),
     filename: 'bundle.server.js',
     libraryTarget: 'commonjs2',
   },
