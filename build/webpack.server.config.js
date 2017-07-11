@@ -1,51 +1,31 @@
 /* eslint global-require:off */
 const webpack = require('webpack');
-const path = require('path');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin');
+const merge = require('webpack-merge');
+const base = require('./webpack.base.config');
 
-const env = process.env.NODE_ENV || 'development';
 
-
-module.exports = {
+module.exports = merge(base, {
   target: 'node',
-  entry: {
-    app: './src/entry-server.js',
-  },
+  devtool: '#source-map',
+  entry: './src/entry-server.js',
   output: {
-    path: path.resolve('dist'),
-    filename: 'bundle.server.js',
+    filename: 'server-bundle.js',
     libraryTarget: 'commonjs2',
   },
-  externals: Object.keys(require('../package.json').dependencies),
   resolve: {
-    modules: [
-      path.resolve('node_modules'),
-    ],
-    extensions: ['.js'],
-  },
-  module: {
-    rules: [{
-      test: /\.vue$/,
-      use: 'vue-loader',
-      exclude: /node_modules/,
+    alias: {
+      // 'create-api': './create-api-server.js',
     },
-    {
-      test: /\.js$/,
-      use: 'babel-loader',
-      exclude: /node_modules/,
-    },
-    ],
   },
+  // https://webpack.js.org/configuration/externals/#externals
+  // https://github.com/liady/webpack-node-externals
+  externals: Object.keys(require('../package.json').dependencies),
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"server"',
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false },
-    }),
     new VueSSRServerPlugin(),
-    new FriendlyErrorsPlugin(),
   ],
-};
+});

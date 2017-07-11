@@ -15,9 +15,16 @@
 
 
 <script>
+/* eslint no-console:off */
 import About from './About.vue';
 
 export default{
+  created() {
+    console.log('created');
+  },
+  mounted() {
+    console.log('mounted');
+  },
   components: {
     About,
   },

@@ -1,3 +1,9 @@
+<style>
+.abour-root{
+  background-color: black;
+}
+</style>
+
 <template>
 <div class="about-root">
   <h2>About</h2>

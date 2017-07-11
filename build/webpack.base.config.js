@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-// const vueConfig = require('./vue-loader.config');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
@@ -10,20 +9,26 @@ module.exports = {
   devtool: isProd ? false : '#cheap-module-source-map',
   output: {
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '/dist/',
+    publicPath: '',
     filename: '[name].[chunkhash].js',
   },
   resolve: {
-    alias: {
+    /* alias: {
       public: path.resolve(__dirname, '../public'),
-    },
+    },*/
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
     rules: [
       {
         test: /\.vue$/,
-        use: 'vue-loader',
+        use: {
+          loader: 'vue-loader',
+          options: {
+            extractCSS: isProd,
+            preserveWhitespace: false,
+          },
+        },
       },
       {
         test: /\.js$/,
@@ -32,13 +37,15 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        use: 'url-loader',
-        options: {
-          limit: 10000,
-          name: '[name].[ext]?[hash]',
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: '[name].[ext]?[hash]',
+          },
         },
       },
-      {
+      /* {
         test: /\.css$/,
         use: isProd
           ? ExtractTextPlugin.extract({
@@ -46,7 +53,7 @@ module.exports = {
             fallback: 'vue-style-loader',
           })
           : ['vue-style-loader', 'css-loader'],
-      },
+      },*/
     ],
   },
   performance: {

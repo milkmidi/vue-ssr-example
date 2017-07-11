@@ -2,11 +2,12 @@ const path = require('path');
 const fs = require('fs');
 const { createBundleRenderer } = require('vue-server-renderer');
 
-
 const clientManifest = require('../dist/vue-ssr-client-manifest.json');
 const serverBundle = require('../dist/vue-ssr-server-bundle.json');
 
-const template = fs.readFileSync(path.resolve('./src/index.template.html'), 'utf-8');
+const ROOT = path.resolve('');
+
+const template = fs.readFileSync(path.resolve('./src/index.ssr.html'), 'utf-8');
 
 
 const renderer = createBundleRenderer(serverBundle, {
@@ -16,12 +17,10 @@ const renderer = createBundleRenderer(serverBundle, {
 });
 
 
-module.exports = () => new Promise((resolve, reject) => {
-  renderer.renderToString((err, html) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-    resolve(html);
-  });
+renderer.renderToString((err, html) => {
+  if (err) {
+    throw err.stack;
+  }
+  fs.writeFileSync(`${ROOT}/dist/index.html`, html);
+  process.exit(0);
 });
