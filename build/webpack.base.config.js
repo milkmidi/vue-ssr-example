@@ -3,19 +3,22 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
+// const ROOT = path.resolve(__dirname, '../');
+
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   devtool: isProd ? false : '#cheap-module-source-map',
   output: {
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '',
-    filename: '[name].[chunkhash].js',
+    publicPath: '/',
+    filename: '[name].js',
+    // filename: '[name].[chunkhash].js',
   },
   resolve: {
     /* alias: {
       public: path.resolve(__dirname, '../public'),
-    },*/
+    }, */
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
@@ -53,7 +56,7 @@ module.exports = {
             fallback: 'vue-style-loader',
           })
           : ['vue-style-loader', 'css-loader'],
-      },*/
+      }, */
     ],
   },
   performance: {

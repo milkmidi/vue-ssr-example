@@ -19,14 +19,18 @@
 import About from './About.vue';
 
 export default{
+  components: {
+    About,
+  },
   created() {
     console.log('created');
   },
   mounted() {
     console.log('mounted');
   },
-  components: {
-    About,
+  updated() {
+    console.log('About updated');
   },
+
 };
 </script>

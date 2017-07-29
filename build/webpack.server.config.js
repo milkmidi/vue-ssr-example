@@ -7,7 +7,7 @@ const base = require('./webpack.base.config');
 
 module.exports = merge(base, {
   target: 'node',
-  devtool: '#source-map',
+  devtool: false,
   entry: './src/entry-server.js',
   output: {
     filename: 'server-bundle.js',

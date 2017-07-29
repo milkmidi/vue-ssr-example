@@ -11,10 +11,17 @@ const config = merge(base, {
   },
   resolve: {
     alias: {
-      // 'create-api': './create-api-client.js',
     },
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.develop.html',
+    }),
+    /* new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity,
+    }), */
+    // new FriendlyErrorsPlugin(),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),

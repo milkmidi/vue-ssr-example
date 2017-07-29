@@ -11,13 +11,18 @@ const template = fs.readFileSync(path.resolve('./src/index.ssr.html'), 'utf-8');
 
 
 const renderer = createBundleRenderer(serverBundle, {
-  template,
   runInNewContext: false,
+  template,
   clientManifest,
 });
 
 
-renderer.renderToString((err, html) => {
+const context = {
+  head: '<h1>head</h1>',
+  styles: '<style>body{background-color:green}</style>',
+  state: JSON.stringify({ name: 'milkmidi' }),
+};
+renderer.renderToString(context, (err, html) => {
   if (err) {
     throw err.stack;
   }
