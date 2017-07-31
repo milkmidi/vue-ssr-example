@@ -8,23 +8,16 @@ const base = require('./webpack.base.config');
 module.exports = merge(base, {
   target: 'node',
   devtool: false,
-  entry: './src/entry-server.js',
+  entry: './src/js/entry-server.js',
   output: {
     filename: 'server-bundle.js',
     libraryTarget: 'commonjs2',
   },
-  resolve: {
-    alias: {
-      // 'create-api': './create-api-server.js',
-    },
-  },
-  // https://webpack.js.org/configuration/externals/#externals
-  // https://github.com/liady/webpack-node-externals
   externals: Object.keys(require('../package.json').dependencies),
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      'process.env.VUE_ENV': '"server"',
+      'process.env.VUE_ENV': JSON.stringify('server'),
     }),
     new VueSSRServerPlugin(),
   ],

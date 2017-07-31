@@ -6,14 +6,14 @@ const base = require('./webpack.base.config');
 
 
 const config = merge(base, {
-  entry: {
-    app: './src/entry-client.js',
-  },
-  resolve: {
-    alias: {
-    },
-  },
   plugins: [
+
+    new HtmlWebpackPlugin({
+      template: 'src/html/index.template.pug',
+      data: {
+        DEV_MODE: false,
+      },
+    }),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
@@ -34,61 +34,11 @@ const config = merge(base, {
     }),
     // extract webpack runtime & manifest to avoid vendor chunk hash changing
     // on every build.
-    new webpack.optimize.CommonsChunkPlugin({
+    /* new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
-    }),
+    }), */
     new VueSSRClientPlugin(),
   ],
 });
 
-
 module.exports = config;
-
-/*
-module.exports = {
-  entry: {
-    app: './src/entry-client.js',
-    vendor: [
-      'vue',
-    ],
-  },
-  output: {
-    path: path.resolve('dist'),
-    filename: '[name].js',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        use: 'vue-loader',
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/index.template.html',
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
-    }),
-    new FriendlyErrorsPlugin(),
-    new VueSSRClientPlugin(),
-  ],
-  devServer: {
-    contentBase: 'dist',
-    historyApiFallback: true,
-    port: 8080,
-    hot: true,
-    stats: {
-      chunks: false,
-      colors: true,
-    },
-  },
-};
-*/

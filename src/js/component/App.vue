@@ -8,19 +8,24 @@
 
 <template>
   <div id="app">
-    <h1>Hi SSR</h1>
-    <About></About>
+    <h1>Hi Vue SSR Example</h1>
+    <Navigation></Navigation>
+    <router-view class="view"></router-view>
   </div>
 </template>
 
 
 <script>
 /* eslint no-console:off */
-import About from './About.vue';
+import Navigation from './Navigation.vue';
 
 export default{
   components: {
-    About,
+    Navigation,
+  },
+  methods: {
+    click() {
+    },
   },
   created() {
     console.log('created');
@@ -29,7 +34,7 @@ export default{
     console.log('mounted');
   },
   updated() {
-    console.log('About updated');
+    console.log('updated');
   },
 
 };

@@ -1,6 +1,6 @@
 <style>
-.abour-root{
-  background-color: black;
+.about-root{
+  background-color: #d3d3d3;
 }
 </style>
 
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+/* eslint no-console:0 */
 export default {
   data() {
     return {
@@ -26,16 +27,12 @@ export default {
     },
   },
   created() {
-    console.log('About created');
   },
   beforeMount() {
-    console.log('About beforeMount ');
   },
   mounted() {
-    console.log('About mounted');
   },
   updated() {
-    console.log('About updated');
   },
 };
 </script>

@@ -3,22 +3,34 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
-// const ROOT = path.resolve(__dirname, '../');
-
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  entry: {
+    app: ['./src/js/entry-client.js'],
+    vendor: [
+      'vue',
+      'vue-router',
+      'vuex',
+    ],
+  },
   devtool: isProd ? false : '#cheap-module-source-map',
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
-    filename: '[name].js',
-    // filename: '[name].[chunkhash].js',
+    filename: isProd ? 'js/[name].[chunkhash].js' : 'js/[name].js',
   },
   resolve: {
-    /* alias: {
-      public: path.resolve(__dirname, '../public'),
-    }, */
+    modules: [
+      path.resolve('src/js'),
+      path.resolve('src/img'),
+      path.resolve('src/css'),
+      path.resolve('src'),
+      path.resolve('node_modules'),
+    ],
+    alias: {
+    },
+    extensions: ['.js', '.vue'],
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
@@ -48,15 +60,16 @@ module.exports = {
           },
         },
       },
-      /* {
-        test: /\.css$/,
-        use: isProd
-          ? ExtractTextPlugin.extract({
-            use: 'css-loader?minimize',
-            fallback: 'vue-style-loader',
-          })
-          : ['vue-style-loader', 'css-loader'],
-      }, */
+      {
+        test: /\.pug$/,
+        use: {
+          loader: 'pug-loader',
+          options: {
+            self: true,
+            pretty: !isProd,
+          },
+        },
+      },
     ],
   },
   performance: {
@@ -69,7 +82,7 @@ module.exports = {
         compress: { warnings: false },
       }),
       new ExtractTextPlugin({
-        filename: 'common.[chunkhash].css',
+        filename: 'css/app.[chunkhash].css',
       }),
     ]
     : [

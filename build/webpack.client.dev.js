@@ -1,28 +1,20 @@
 const webpack = require('webpack');
-const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
+// const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const base = require('./webpack.base.config');
 
-
+const isProd = process.env.NODE_ENV === 'production';
 const config = merge(base, {
-  entry: {
-    app: './src/entry-client.js',
-  },
-  resolve: {
-    alias: {
-    },
-  },
+  devtool: 'eval-source-map',
   plugins: [
+    ...base.plugins,
     new HtmlWebpackPlugin({
-      template: 'src/index.develop.html',
+      template: 'src/html/index.template.pug',
+      data: {
+        DEV_MODE: !isProd,
+      },
     }),
-    /* new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
-    }), */
-    // new FriendlyErrorsPlugin(),
-    // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"client"',
@@ -40,16 +32,25 @@ const config = merge(base, {
         );
       },
     }),
-    // extract webpack runtime & manifest to avoid vendor chunk hash changing
-    // on every build.
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-    }),
-    new VueSSRClientPlugin(),
   ],
+  devServer: {
+    contentBase: 'dist',
+    historyApiFallback: true,
+    noInfo: true,
+    port: 3000,
+    hot: true,
+    stats: {
+      colors: true,
+      hash: false,
+      chunks: false,
+    },
+    host: '0.0.0.0',
+    disableHostCheck: true,
+    proxy: {
+    // '/api': 'http://localhost:3000',
+    },
+  },
 });
-
-
 module.exports = config;
 
 /*
@@ -88,15 +89,6 @@ module.exports = {
     new FriendlyErrorsPlugin(),
     new VueSSRClientPlugin(),
   ],
-  devServer: {
-    contentBase: 'dist',
-    historyApiFallback: true,
-    port: 8080,
-    hot: true,
-    stats: {
-      chunks: false,
-      colors: true,
-    },
-  },
+ 
 };
 */
