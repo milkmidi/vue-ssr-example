@@ -10,6 +10,7 @@ const config = merge(base, {
 
     new HtmlWebpackPlugin({
       template: 'src/html/index.template.pug',
+      inject: false,
       data: {
         DEV_MODE: false,
       },

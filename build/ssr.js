@@ -15,13 +15,16 @@ const renderer = createBundleRenderer(serverBundle, {
   template,
   runInNewContext: false,
   clientManifest,
+  shouldPreload: () => false,
 });
 
 const generateHTML = url => new Promise((resolve, reject) => {
   const context = {
     // head: `<!--${url}-->`,
+    // title: url,
     // styles: '<style>body{background-color:green}</style>',
-    state: JSON.stringify({ name: `state${url}` }),
+    // state: { name: `milkmidi${url}` },
+    // state: JSON.stringify({ name: `milkmidi${url}` }),
     url,
   };
 
@@ -36,6 +39,7 @@ const generateHTML = url => new Promise((resolve, reject) => {
       toPath += url.substr(1);
       fs.mkdirSync(toPath);
     }
+    // const htmlCode = template.replace('<!--vue-ssr-outlet-->', html);
     fs.writeFileSync(toPath + fileName, html);
     console.log(url);
     resolve();

@@ -9,7 +9,8 @@ export default context => new Promise((resolve, reject) => {
       reject({ code: 404 });
       return;
     }
-    context.state = store.state;
+    // context.state = { url: context.url };
+    context.state = { ...store.state, currentRoute: context.url };
     resolve(app);
     /* Promise.all(matchedComponents.map((Component) => {
       if (Component.asyncData) {

@@ -55,7 +55,7 @@ module.exports = {
         use: {
           loader: 'url-loader',
           options: {
-            limit: 10000,
+            limit: 2048,
             name: '[name].[ext]?[hash]',
           },
         },
@@ -66,7 +66,8 @@ module.exports = {
           loader: 'pug-loader',
           options: {
             self: true,
-            pretty: !isProd,
+            pretty: true,
+            // pretty: !isProd,
           },
         },
       },

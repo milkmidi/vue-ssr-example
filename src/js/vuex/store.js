@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const defaultState = {
   topics: [],
   count: 0,
+  currentRoute: '/',
 };
 
 const inBrowser = typeof window !== 'undefined';
