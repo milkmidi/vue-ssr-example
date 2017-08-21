@@ -24,17 +24,15 @@ export default{
     Navigation,
   },
   methods: {
-    click() {
-    },
   },
   created() {
-    console.log('created');
+    console.log('app created');
   },
   mounted() {
-    console.log('mounted');
+    console.log('app mounted');
   },
   updated() {
-    console.log('updated');
+    console.log('app updated');
   },
 
 };

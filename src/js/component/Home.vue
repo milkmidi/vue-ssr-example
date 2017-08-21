@@ -7,7 +7,8 @@
 <template>
   <div class="home-root">
     <h1>Home</h1>
-    <button @click="click">button</button>
+    <button @click="click">button123456789</button>
+    <p v-for="i in list">{{i}}</p>
   </div>
 </template>
 
@@ -16,7 +17,12 @@
 /* eslint no-console:off */
 
 
-export default{
+export default {
+  data() {
+    return {
+      list: [1, 2, 3, 4],
+    };
+  },
   components: {
   },
   methods: {
@@ -25,10 +31,13 @@ export default{
     },
   },
   created() {
+    console.log('Home created');
   },
   mounted() {
+    console.log('Home mounted');
   },
   updated() {
+    console.log('Home updated');
   },
 
 };
